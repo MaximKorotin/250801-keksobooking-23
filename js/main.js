@@ -89,8 +89,8 @@ const createArrayRandomLength = (elements) => {
 };
 
 const createAd = (index) => {
-  const LAT = getRandomFloating(35.65000, 35.70000, 5);
-  const LNG = getRandomFloating(139.70000, 139.80000, 5);
+  const lat = getRandomFloating(35.65000, 35.70000, 5);
+  const lng = getRandomFloating(139.70000, 139.80000, 5);
 
   return {
     author: {
@@ -98,11 +98,11 @@ const createAd = (index) => {
     },
     offer: {
       title: 'Сдаётся',
-      address: `${LAT}, ${LNG}`,
-      price: (getRandomInteger(0, 10000)),
+      address: `${lat}, ${lng}`,
+      price: getRandomInteger(0, 10000),
       type: getRandomArrayElement(TYPES),
-      rooms: (getRandomInteger(1, 4)),
-      guests: (getRandomInteger(1, 8)),
+      rooms: getRandomInteger(1, 4),
+      guests: getRandomInteger(1, 8),
       checkin: getRandomArrayElement(TIME),
       checkout: getRandomArrayElement(TIME),
       features: createArrayRandomLength(FEATURES).sort(() => Math.random() - 0.5),
@@ -110,13 +110,16 @@ const createAd = (index) => {
       photos: createArrayRandomLength(PHOTOS).sort(() => Math.random() - 0.5),
     },
     location: {
-      lat: LAT,
-      lng: LNG,
+      lat,
+      lng,
     },
   };
 };
 
-const similarAds = new Array(SIMILAR_AD_COUNT).fill(null).map((value, index) => createAd(index + 1)).sort(() => Math.random() - 0.3);
+const similarAds = new Array(SIMILAR_AD_COUNT)
+  .fill(null)
+  .map((value, index) => createAd(index + 1))
+  .sort(() => Math.random() - 0.3);
 
 // eslint-disable-next-line no-console
 console.log(similarAds);
