@@ -1,3 +1,5 @@
+// -------------------------- 2.14. Нужно больше функций -------------------------------
+
 // Некоторые части функций взяты со страниц:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
 // https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed
@@ -6,7 +8,7 @@
 
 // Функция, возвращающая случайное целое число из переданного диапазона включительно
 
-const GET_RANDOM_INTEGER = function (min, max) {
+const getRandomInteger = function (min, max) {
   if (min < 0) {
     throw new RangeError('Минимальное значение не может быть меньше 0');
   }
@@ -21,7 +23,7 @@ const GET_RANDOM_INTEGER = function (min, max) {
 
 // Функция, возвращающая случайное число с плавающей точкой из переданного диапазона включительно
 
-const GET_RANDOM_FLOATING = function (min, max, decimal) {
+const getRandomFloating = function (min, max, decimal) {
   if (min < 0) {
     throw new RangeError('Минимальное значение не может быть меньше 0');
   }
@@ -35,6 +37,9 @@ const GET_RANDOM_FLOATING = function (min, max, decimal) {
 };
 
 
+// ------------------------------ 4.9. Больше деталей -------------------------------------
+
+
 const TYPES = [
   'palace',
   'flat',
@@ -42,12 +47,11 @@ const TYPES = [
   'bungalow',
   'hotel',
 ];
-const CHECKIN_TIME = [
+const TIME = [
   '12:00',
   '13:00',
   '14:00',
 ];
-const CHECKOUT_TIME = CHECKIN_TIME.slice();
 const FEATURES = [
   'wifi',
   'dishwasher',
@@ -71,11 +75,12 @@ const PHOTOS = [
 
 const SIMILAR_AD_COUNT = 10;
 
-const getRandomArrayElement = (elements) => elements[GET_RANDOM_INTEGER(0, elements.length - 1)];
+const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
 
 const createArrayRandomLength = (elements) => {
-  const lengthArray = GET_RANDOM_INTEGER(0, elements.length - 1);
+  const lengthArray = getRandomInteger(0, elements.length - 1);
   const array = new Array();
+
   for(let index = 0; index <= lengthArray; index++) {
     array.push(elements[index]);
   }
@@ -83,32 +88,35 @@ const createArrayRandomLength = (elements) => {
   return array;
 };
 
-const createLocation = () => ({
-  lat: GET_RANDOM_FLOATING(35.65000, 35.70000, 5),
-  lng: GET_RANDOM_FLOATING(139.70000, 139.80000, 5),
-});
+const createAd = (index) => {
+  const LAT = getRandomFloating(35.65000, 35.70000, 5);
+  const LNG = getRandomFloating(139.70000, 139.80000, 5);
 
-const createAdInformation = () => ({
-  title: 'Сдаётся',
-  address: `${createLocation().lat  }, ${  createLocation().lng}`,
-  price: Number(GET_RANDOM_INTEGER(0, 10000)),
-  type: getRandomArrayElement(TYPES),
-  rooms: Number(GET_RANDOM_INTEGER(0, 4)),
-  guests: Number(GET_RANDOM_INTEGER(0, 8)),
-  checkin: getRandomArrayElement(CHECKIN_TIME),
-  checkout: getRandomArrayElement(CHECKOUT_TIME),
-  features: createArrayRandomLength(FEATURES),
-  description: getRandomArrayElement(DESCRIPTION_HOUSING),
-  photos: createArrayRandomLength(PHOTOS),
-});
+  return {
+    author: {
+      avatar: `img/avatars/user${index < 10 ? 0 : ''}${index}.png`,
+    },
+    offer: {
+      title: 'Сдаётся',
+      address: `${LAT}, ${LNG}`,
+      price: (getRandomInteger(0, 10000)),
+      type: getRandomArrayElement(TYPES),
+      rooms: (getRandomInteger(1, 4)),
+      guests: (getRandomInteger(1, 8)),
+      checkin: getRandomArrayElement(TIME),
+      checkout: getRandomArrayElement(TIME),
+      features: createArrayRandomLength(FEATURES).sort(() => Math.random() - 0.5),
+      description: getRandomArrayElement(DESCRIPTION_HOUSING),
+      photos: createArrayRandomLength(PHOTOS).sort(() => Math.random() - 0.5),
+    },
+    location: {
+      lat: LAT,
+      lng: LNG,
+    },
+  };
+};
 
-const createAd = (index) => ({
-  author: `img/avatars/user${index < 10 ? 0 : ''}${index}.png`,
-  offer: createAdInformation(),
-  location: createLocation(),
-});
+const similarAds = new Array(SIMILAR_AD_COUNT).fill(null).map((value, index) => createAd(index + 1)).sort(() => Math.random() - 0.3);
 
-const similarAds = new Array(SIMILAR_AD_COUNT).fill(null).map(() => createAd());
-for (let index = 0; index < similarAds.length; index++) {
-  similarAds[index] = createAd(index + 1);
-}
+// eslint-disable-next-line no-console
+console.log(similarAds);
