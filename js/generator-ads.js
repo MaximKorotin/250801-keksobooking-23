@@ -9,11 +9,11 @@ const generateAds = (ads) => {
     hotel: 'Отель',
   };
 
-  const CARD = document.querySelector('#card').content.querySelector('.popup');
-  const MAP_CANVAS_FRAGMENT = document.createDocumentFragment();
+  const card = document.querySelector('#card').content.querySelector('.popup');
+  const mapCanvasFragment = document.createDocumentFragment();
 
   ads.forEach(({offer, author}) => {
-    const cardElement = CARD.cloneNode(true);
+    const cardElement = card.cloneNode(true);
 
     author.avatar
       ? (cardElement.querySelector('.popup__avatar').src = author.avatar)
@@ -60,12 +60,12 @@ const generateAds = (ads) => {
       cardElement.querySelector('.popup__photos').classList.add('hidden');
     }
 
-    MAP_CANVAS_FRAGMENT.appendChild(cardElement);
+    mapCanvasFragment.appendChild(cardElement);
   });
 
-  return MAP_CANVAS_FRAGMENT;
+  return mapCanvasFragment;
 };
 
-const MAP_CANVAS = document.querySelector('#map-canvas');
+const mapCanvas = document.querySelector('#map-canvas');
 const allAds = generateAds(similarAds);
-MAP_CANVAS.appendChild(allAds.firstChild);
+mapCanvas.appendChild(allAds.firstChild);
