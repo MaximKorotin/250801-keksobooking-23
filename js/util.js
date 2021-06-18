@@ -45,4 +45,15 @@ const createArrayRandomLength = (elements) => {
   return array;
 };
 
-export {getRandomInteger, getRandomFloating, getRandomArrayElement, createArrayRandomLength};
+// Функция, скрывающая пустые пункты объявления
+
+const setVisibilityItemAd = (element, content) => {
+  if (content) {
+    element.classList.remove('hidden');
+    element.textContent = content;
+    return;
+  }
+  element.classList.add('hidden');
+};
+
+export {getRandomInteger, getRandomFloating, getRandomArrayElement, createArrayRandomLength, setVisibilityItemAd};

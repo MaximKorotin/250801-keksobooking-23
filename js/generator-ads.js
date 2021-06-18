@@ -1,4 +1,5 @@
 import {similarAds} from './create-ad.js';
+import {setVisibilityItemAd} from './util.js';
 
 const generateAds = (ads) => {
   const matchingType = {
@@ -15,33 +16,45 @@ const generateAds = (ads) => {
   ads.forEach(({offer, author}) => {
     const cardElement = card.cloneNode(true);
 
-    author.avatar
-      ? (cardElement.querySelector('.popup__avatar').src = author.avatar)
-      : cardElement.querySelector('.popup__avatar').classList.add('hidden');
-    offer.title
-      ? (cardElement.querySelector('.popup__title').textContent = offer.title)
-      : cardElement.querySelector('.popup__title').classList.add('hidden');
-    offer.address
-      ? (cardElement.querySelector('.popup__text--address').textContent = offer.address)
-      : cardElement.querySelector('.popup__text--address').classList.add('hidden');
-    offer.price
-      ? (cardElement.querySelector('.popup__text--price').textContent = `${offer.price} ₽/ночь`)
-      : cardElement.querySelector('.popup__text--price').classList.add('hidden');
-    offer.type
-      ? (cardElement.querySelector('.popup__type').textContent = matchingType[offer.type])
-      : cardElement.querySelector('.popup__type').classList.add('hidden');
-    offer.rooms && offer.guests
-      ? (cardElement.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`)
-      : cardElement.querySelector('.popup__text--capacity').classList.add('hidden');
-    offer.checkin && offer.checkout
-      ? (cardElement.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`)
-      : cardElement.querySelector('.popup__text--time').classList.add('hidden');
-    offer.features.length
-      ? (cardElement.querySelector('.popup__features').textContent = offer.features)
-      : cardElement.querySelector('.popup__features').classList.add('hidden');
-    offer.description
-      ? (cardElement.querySelector('.popup__description').textContent = offer.description)
-      : cardElement.querySelector('.popup__description').classList.add('hidden');
+    cardElement.querySelector('.popup__avatar').src = author.avatar;
+
+    const title = cardElement.querySelector('.popup__title');
+    setVisibilityItemAd(title, offer.title);
+
+    const address = cardElement.querySelector('.popup__text--address');
+    setVisibilityItemAd(address, offer.address);
+
+    const price = cardElement.querySelector('.popup__text--price');
+    setVisibilityItemAd(price, `${offer.price} ₽/ночь`);
+
+    const type = cardElement.querySelector('.popup__type');
+    setVisibilityItemAd(type, matchingType[offer.type]);
+
+    const capacity = cardElement.querySelector('.popup__text--capacity');
+    setVisibilityItemAd(capacity, `${offer.rooms} комнаты для ${offer.guests} гостей`);
+
+    const time = cardElement.querySelector('.popup__text--time');
+    setVisibilityItemAd(time, `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`);
+
+    const description = cardElement.querySelector('.popup__description');
+    setVisibilityItemAd(description, offer.description);
+
+    if (offer.features) {
+      const featuresList = cardElement.querySelector('.popup__features');
+      const featuresItem = cardElement.querySelector('.popup__feature');
+      const featuresFragment = document.createDocumentFragment();
+
+      offer.features.forEach((features) => {
+        const featureElement = featuresItem.cloneNode(true);
+        featureElement.classList.add(`popup__feature--${features}`);
+        featuresFragment.appendChild(featureElement);
+      });
+
+      featuresList.innerHTML = '';
+      featuresList.appendChild(featuresFragment);
+    } else {
+      cardElement.querySelector('.popup__features').classList.add('hidden');
+    }
 
     if (offer.photos) {
       const photoList = cardElement.querySelector('.popup__photos');
@@ -50,7 +63,7 @@ const generateAds = (ads) => {
 
       offer.photos.forEach((photo) => {
         const photoElement = photoItem.cloneNode(true);
-        photoElement.setAttribute('src', photo);
+        photoElement.src = photo;
         photoFragment.appendChild(photoElement);
       });
 
