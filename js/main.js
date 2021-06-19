@@ -1,9 +1,7 @@
-import {SIMILAR_AD_COUNT, createAd} from './create-ad.js';
+import'./generator-ads.js';
+import {formDisabled, formIncluded} from './form.js';
+import {minPrice} from './validity-form.js';
 
-const similarAds = new Array(SIMILAR_AD_COUNT)
-  .fill(null)
-  .map((value, index) => createAd(index + 1))
-  .sort(() => Math.random() - 0.3);
-
-// eslint-disable-next-line no-console
-console.log(similarAds);
+formDisabled();
+formIncluded();
+minPrice();
