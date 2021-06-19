@@ -47,10 +47,11 @@ const createArrayRandomLength = (elements) => {
 
 // Функция, скрывающая пустые пункты объявления
 
-const setVisibilityItemAd = (element, content) => {
-  if (content) {
+const setVisibilityItemAd = (element, visible, content) => {
+  element.textContent = content;
+
+  if (visible) {
     element.classList.remove('hidden');
-    element.textContent = content;
     return;
   }
   element.classList.add('hidden');
