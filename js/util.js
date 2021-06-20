@@ -38,8 +38,8 @@ const createArrayRandomLength = (elements) => {
   const lengthArray = getRandomInteger(0, elements.length - 1);
   const array = new Array();
 
-  for(let index = 0; index <= lengthArray; index++) {
-    array.push(elements[index]);
+  for(let i = 0; i <= lengthArray; i++) {
+    array.push(elements[i]);
   }
 
   return array;
@@ -47,10 +47,11 @@ const createArrayRandomLength = (elements) => {
 
 // Функция, скрывающая пустые пункты объявления
 
-const setVisibilityItemAd = (element, content) => {
-  if (content) {
+const setVisibilityItemAd = (element, visible, content) => {
+  element.textContent = content;
+
+  if (visible) {
     element.classList.remove('hidden');
-    element.textContent = content;
     return;
   }
   element.classList.add('hidden');
