@@ -38,8 +38,8 @@ const createArrayRandomLength = (elements) => {
   const lengthArray = getRandomInteger(0, elements.length - 1);
   const array = new Array();
 
-  for(let i = 0; i <= lengthArray; i++) {
-    array.push(elements[i]);
+  for(let index = 0; index <= lengthArray; index++) {
+    array.push(elements[index]);
   }
 
   return array;
