@@ -1,7 +1,8 @@
 import'./generator-ads.js';
-import {formDisabled, formIncluded} from './form.js';
-import {minPrice} from './validity-form.js';
+import {switchPageState} from './form.js';
+import {validityTitle, validityPrice, minPrice} from './validity-form.js';
 
-formDisabled();
-formIncluded();
+validityTitle();
+validityPrice();
+switchPageState(false);
 minPrice();

@@ -5,30 +5,21 @@ const mapFilter = mapFilters.querySelectorAll('.map__filter');
 const mapFeatures = mapFilters.querySelector('.map__features');
 // const mapCanvas = document.querySelector('.map__canvas'); --------- Карта ---------
 
-const formDisabled = () => {
-  adForm.classList.add('ad-form--disabled');
-  formFieldset.forEach((element) => {
-    element.disabled = true;
-  });
-  mapFilters.classList.add('map__filters--disabled');
-  mapFilter.forEach((element) => {
-    element.disabled = true;
-  });
-  mapFeatures.disabled = true;
-};
-
-const formIncluded = () => {
-  window.addEventListener('load', () => {
+const switchPageState = (active) => {
+  if (active) {
+    adForm.classList.add('ad-form--disabled');
+    mapFilters.classList.add('map__filters--disabled');
+  }  else {
     adForm.classList.remove('ad-form--disabled');
-    formFieldset.forEach((element) => {
-      element.disabled = false;
-    });
     mapFilters.classList.remove('map__filters--disabled');
-    mapFilter.forEach((element) => {
-      element.disabled = false;
-    });
-    mapFeatures.disabled = false;
+  }
+  mapFeatures.disabled = active;
+  formFieldset.forEach((element) => {
+    element.disabled = active;
+  });
+  mapFilter.forEach((element) => {
+    element.disabled = active;
   });
 };
 
-export {formDisabled, formIncluded, adForm};
+export {switchPageState, adForm};
