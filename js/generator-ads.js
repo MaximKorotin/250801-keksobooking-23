@@ -19,25 +19,25 @@ const generateAds = (ads) => {
     cardElement.querySelector('.popup__avatar').src = author.avatar;
 
     const title = cardElement.querySelector('.popup__title');
-    setVisibilityItemAd(title, offer.title, offer.title);
+    setVisibilityItemAd(title, offer.title);
 
     const address = cardElement.querySelector('.popup__text--address');
-    setVisibilityItemAd(address, offer.address, offer.address);
+    setVisibilityItemAd(address, offer.address);
 
     const price = cardElement.querySelector('.popup__text--price');
-    setVisibilityItemAd(price, offer.price, `${offer.price} ₽/ночь`);
+    setVisibilityItemAd(price, `${offer.price} ₽/ночь`);
 
     const type = cardElement.querySelector('.popup__type');
-    setVisibilityItemAd(type, offer.type, matchingType[offer.type]);
+    setVisibilityItemAd(type, matchingType[offer.type]);
 
     const capacity = cardElement.querySelector('.popup__text--capacity');
-    setVisibilityItemAd(capacity, offer.rooms && offer.guests, `${offer.rooms} комнаты для ${offer.guests} гостей`);
+    setVisibilityItemAd(capacity, `${offer.rooms} комнаты для ${offer.guests} гостей`);
 
     const time = cardElement.querySelector('.popup__text--time');
-    setVisibilityItemAd(time, offer.checkin && offer.checkout, `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`);
+    setVisibilityItemAd(time, `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`);
 
     const description = cardElement.querySelector('.popup__description');
-    setVisibilityItemAd(description, offer.description, offer.description);
+    setVisibilityItemAd(description, offer.description);
 
     if (offer.features) {
       const featuresList = cardElement.querySelector('.popup__features');
