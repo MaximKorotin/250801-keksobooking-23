@@ -1,14 +1,17 @@
-import {adForm} from './form.js';
+const adForm = document.querySelector('.ad-form');
+const price = adForm.querySelector('#price');
 
-const validityTitle = () => {
-  const titleInput = document.querySelector('#title');
+const setValidityTitle = () => {
+  const titleInput = adForm.querySelector('#title');
   const minAdLength = titleInput.minLength;
   const maxAdLength = titleInput.maxLength;
 
   titleInput.addEventListener('input', () => {
     const valueLength = titleInput.value.length;
 
-    if (valueLength < minAdLength) {
+    if (titleInput.validity.valueMissing) {
+      titleInput.setCustomValidity('Это поле обязательно для заполнения.');
+    } else if (valueLength < minAdLength) {
       titleInput.setCustomValidity(`Заголовок объявления должен состоять минимум из
         ${minAdLength} символов. Добавьте ещё ${minAdLength - valueLength} симв.`);
     } else if (valueLength > maxAdLength) {
@@ -21,40 +24,52 @@ const validityTitle = () => {
   });
 };
 
-const validityPrice = () => {
-  const priceInput = document.querySelector('#price');
-  const maxPrice = priceInput.max;
+const setValidityMaxPrice = () => {
+  const maxPrice = price.max;
 
-  priceInput.addEventListener('input', () => {
-    if (priceInput.validity.rangeOverflow) {
-      priceInput.setCustomValidity(`Максимальная сумма ${maxPrice}`);
-    } else if (priceInput.validity.valueMissing) {
-      priceInput.setCustomValidity('Поле обязательное для заполнения.');
+  price.addEventListener('input', () => {
+    if (price.validity.valueMissing) {
+      price.setCustomValidity('Это поле обязательное для заполнения.');
+    } else if (price.validity.rangeOverflow) {
+      price.setCustomValidity(`Максимальная сумма ${maxPrice}`);
     } else {
-      priceInput.setCustomValidity('');
+      price.setCustomValidity('');
     }
-    priceInput.reportValidity();
+    price.reportValidity();
   });
 };
 
-const minPrice = () => {
-  const types = adForm.querySelector('#type');
-  const price = adForm.querySelector('#price');
+const setValidityCapacity = () => {
+  const MAX_ROOMS = '100';
+  const MIN_CAPACITY = '0';
+  const rooms = adForm.querySelector('#room_number');
+  const capacity = adForm.querySelector('#capacity');
 
-  types.addEventListener('change', () => {
-    switch (types.value) {
-      case 'bungalow':
-        return price.placeholder = '0';
-      case 'flat':
-        return price.placeholder = '1000';
-      case 'hotel':
-        return price.placeholder = '3000';
-      case 'house':
-        return price.placeholder = '5000';
-      case 'palace':
-        return price.placeholder = '10000';
+  const setReport = (roomsReport, capacityReport) => {
+    rooms.setCustomValidity(roomsReport);
+    capacity.setCustomValidity(capacityReport);
+  };
+
+  const setСonditionsReview = () => {
+    if (rooms.value === MAX_ROOMS && capacity.value !== MIN_CAPACITY) {
+      setReport('Это помещение не для гостей', '');
+    } else if (capacity.value === MIN_CAPACITY && rooms.value !== MAX_ROOMS) {
+      setReport('', 'Выберите не менее одного гостя');
+    } else if (capacity.value > rooms.value) {
+      setReport('', 'число гостей не должно превышать число комнат.');
+    } else {
+      setReport('', '');
     }
+    rooms.reportValidity();
+    capacity.reportValidity();
+  };
+
+  rooms.addEventListener('input', () => {
+    setСonditionsReview();
+  });
+  capacity.addEventListener('input', () => {
+    setСonditionsReview();
   });
 };
 
-export {validityTitle, validityPrice, minPrice};
+export {setValidityTitle, setValidityMaxPrice, setValidityCapacity};

@@ -22,4 +22,4 @@ const switchPageState = (active) => {
   });
 };
 
-export {switchPageState, adForm};
+export {switchPageState};

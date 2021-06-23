@@ -1,8 +1,8 @@
 import'./generator-ads.js';
 import {switchPageState} from './form.js';
-import {validityTitle, validityPrice, minPrice} from './validity-form.js';
+import {setValidityTitle, setValidityMaxPrice, setValidityCapacity} from './validity-form.js';
 
-validityTitle();
-validityPrice();
 switchPageState(false);
-minPrice();
+setValidityTitle();
+setValidityMaxPrice();
+setValidityCapacity();
