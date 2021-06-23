@@ -3,7 +3,6 @@ const formFieldset = adForm.querySelectorAll('fieldset');
 const mapFilters = document.querySelector('.map__filters');
 const mapFilter = mapFilters.querySelectorAll('.map__filter');
 const mapFeatures = mapFilters.querySelector('.map__features');
-const adFormSubmit = adForm.querySelector('.ad-form__submit');
 // const mapCanvas = document.querySelector('.map__canvas'); --------- Карта ---------
 
 const switchPageState = (active) => {
@@ -23,4 +22,4 @@ const switchPageState = (active) => {
   });
 };
 
-export {switchPageState, adForm, adFormSubmit};
+export {switchPageState};
