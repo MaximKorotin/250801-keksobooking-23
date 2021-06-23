@@ -72,4 +72,43 @@ const setValidityCapacity = () => {
   });
 };
 
-export {setValidityTitle, setValidityMaxPrice, setValidityCapacity};
+const setValidityMinPrice = () => {
+  const types = adForm.querySelector('#type');
+
+  const priceObject = {
+    bungalow: 0,
+    flat: 1000,
+    hotel: 3000,
+    house: 5000,
+    palace: 10000,
+  };
+
+  types.addEventListener('change', () => {
+    const minPriceValue = priceObject[types.value];
+    price.min = minPriceValue;
+    price.placeholder = minPriceValue;
+
+    price.addEventListener('input', () => {
+      if (price.value < minPriceValue) {
+        price.setCustomValidity(`Значение должно быть больше или равно ${minPriceValue}`);
+      } else {
+        price.setCustomValidity('');
+      }
+      price.reportValidity();
+    });
+  });
+};
+
+const setValidityTime = () => {
+  const timeIn = adForm.querySelector('#timein');
+  const timeOut = adForm.querySelector('#timeout');
+
+  timeIn.addEventListener('input', () => {
+    timeOut.value = timeIn.value;
+  });
+  timeOut.addEventListener('input', () => {
+    timeIn.value = timeOut.value;
+  });
+};
+
+export {setValidityTitle, setValidityMaxPrice, setValidityCapacity, setValidityMinPrice, setValidityTime};
