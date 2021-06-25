@@ -73,36 +73,35 @@ const markerGroup = L.layerGroup().addTo(map);
 
 // Создаёт метки с объявлениями
 
-const createMarker = () => {
-  for (let index = 0; index < similarAds.length; index++) {
-    const lat = similarAds[index].location.lat;
-    const lng = similarAds[index].location.lng;
+const createMarker = (index) => {
+  const {lat, lng} = similarAds[index].location;
 
-    const icon = L.icon({
-      iconUrl: '../img/pin.svg',
-      iconSize: [40, 40],
-      iconAnchor: [20, 40],
-    });
+  const icon = L.icon({
+    iconUrl: '../img/pin.svg',
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
+  });
 
-    const marker = L.marker(
-      [
-        lat,
-        lng,
-      ],
+  const marker = L.marker(
+    [
+      lat,
+      lng,
+    ],
+    {
+      icon,
+    },
+  );
+
+  marker
+    .addTo(markerGroup)
+    .bindPopup(
+      generateAds[index],
       {
-        icon,
+        keepInView: true,
       },
     );
-
-    marker
-      .addTo(markerGroup)
-      .bindPopup(
-        generateAds[index],
-        {
-          keepInView: true,
-        },
-      );
-  }
 };
 
-createMarker();
+for (let index = 0; index < similarAds.length; index++) {
+  createMarker(index);
+}
