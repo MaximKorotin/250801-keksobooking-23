@@ -1,6 +1,8 @@
 const adForm = document.querySelector('.ad-form');
 const price = adForm.querySelector('#price');
 
+// Функция валидации заголовка объявления
+
 const setValidityTitle = () => {
   const titleInput = adForm.querySelector('#title');
   const minAdLength = titleInput.minLength;
@@ -24,6 +26,8 @@ const setValidityTitle = () => {
   });
 };
 
+// Функция валидации максимальной цены в объявление
+
 const setValidityMaxPrice = () => {
   const maxPrice = price.max;
 
@@ -38,6 +42,8 @@ const setValidityMaxPrice = () => {
     price.reportValidity();
   });
 };
+
+// Функция валидации количества комнот и людей в объявление
 
 const setValidityCapacity = () => {
   const MAX_ROOMS = '100';
@@ -72,6 +78,8 @@ const setValidityCapacity = () => {
   });
 };
 
+// Функция валидации минимальной цены в объявление
+
 const setValidityMinPrice = () => {
   const types = adForm.querySelector('#type');
 
@@ -99,6 +107,8 @@ const setValidityMinPrice = () => {
   });
 };
 
+// Функция валидации времени заезда и выезда в объявление
+
 const setValidityTime = () => {
   const timeIn = adForm.querySelector('#timein');
   const timeOut = adForm.querySelector('#timeout');
@@ -111,4 +121,8 @@ const setValidityTime = () => {
   });
 };
 
-export {setValidityTitle, setValidityMaxPrice, setValidityCapacity, setValidityMinPrice, setValidityTime};
+setValidityTitle();
+setValidityMaxPrice();
+setValidityCapacity();
+setValidityMinPrice();
+setValidityTime();
