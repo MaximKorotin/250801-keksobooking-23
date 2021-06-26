@@ -4,8 +4,13 @@ import {generateAds} from './generator-ads.js';
 
 const LAT_CENTER_TOKYO = 35.68940;
 const LNG_CENTER_TOKYO = 139.69200;
+const MAIN_ICON_SIZE = [52, 52];
+const MAIN_ICON_ANCHOR = [26, 52];
+const ICON_SIZE = [40, 40];
+const ICON_ANCHOR = [20, 40];
 const address = document.querySelector('#address');
 const reset = document.querySelector('.ad-form__reset');
+address.value = '35.68940, 139.69200';
 
 // Добавляет основу карты от Leaflet
 
@@ -28,8 +33,8 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 
 const mainPinIcon = L.icon({
   iconUrl: '../img/main-pin.svg',
-  iconSize: [52, 52],
-  iconAnchor: [26, 52],
+  iconSize: MAIN_ICON_SIZE,
+  iconAnchor: MAIN_ICON_ANCHOR,
 });
 
 // Добавляет основную метку
@@ -56,7 +61,9 @@ mainMarker.on('moveend', (evt) => {
 
 // При нажатие на кнопку "Очистить" основная метка, масштаб и центровка карты возращаются на исходную позицию
 
-reset.addEventListener('click', () => {
+reset.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  reset.closest('form').reset();
   mainMarker.setLatLng({
     lat: LAT_CENTER_TOKYO,
     lng: LNG_CENTER_TOKYO,
@@ -65,6 +72,8 @@ reset.addEventListener('click', () => {
     lat: LAT_CENTER_TOKYO,
     lng: LNG_CENTER_TOKYO,
   }, 12);
+  document.querySelector('#price').placeholder = 1000;
+  address.value = '35.68940, 139.69200';
 });
 
 // Создаёт и добавляет группу меток на карту
@@ -78,15 +87,15 @@ const createMarker = (index) => {
 
   const icon = L.icon({
     iconUrl: '../img/pin.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
+    iconSize: ICON_SIZE,
+    iconAnchor: ICON_ANCHOR,
   });
 
   const marker = L.marker(
-    [
+    {
       lat,
       lng,
-    ],
+    },
     {
       icon,
     },
@@ -102,6 +111,6 @@ const createMarker = (index) => {
     );
 };
 
-for (let index = 0; index < similarAds.length; index++) {
+similarAds.forEach((value, index) => {
   createMarker(index);
-}
+});
