@@ -10,7 +10,7 @@ const ICON_SIZE = [40, 40];
 const ICON_ANCHOR = [20, 40];
 const address = document.querySelector('#address');
 const reset = document.querySelector('.ad-form__reset');
-address.value = '35.68940, 139.69200';
+address.value = `${LAT_CENTER_TOKYO.toFixed(5)}, ${LNG_CENTER_TOKYO.toFixed(5)}`;
 
 // Добавляет основу карты от Leaflet
 
@@ -73,7 +73,7 @@ reset.addEventListener('click', (evt) => {
     lng: LNG_CENTER_TOKYO,
   }, 12);
   document.querySelector('#price').placeholder = 1000;
-  address.value = '35.68940, 139.69200';
+  address.value = `${LAT_CENTER_TOKYO.toFixed(5)}, ${LNG_CENTER_TOKYO.toFixed(5)}`;
 });
 
 // Создаёт и добавляет группу меток на карту
