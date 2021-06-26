@@ -3,7 +3,8 @@ const formFieldset = adForm.querySelectorAll('fieldset');
 const mapFilters = document.querySelector('.map__filters');
 const mapFilter = mapFilters.querySelectorAll('.map__filter');
 const mapFeatures = mapFilters.querySelector('.map__features');
-// const mapCanvas = document.querySelector('.map__canvas'); --------- Карта ---------
+
+// Функция переключения состояния активности формы и фильтра
 
 const switchPageState = (active) => {
   if (active) {
@@ -21,5 +22,7 @@ const switchPageState = (active) => {
     element.disabled = active;
   });
 };
+
+switchPageState(true);
 
 export {switchPageState};
