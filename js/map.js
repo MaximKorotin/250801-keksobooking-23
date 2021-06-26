@@ -32,7 +32,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 // Меняет изображение основной метки на кастомную
 
 const mainPinIcon = L.icon({
-  iconUrl: '../img/main-pin.svg',
+  iconUrl: 'img/main-pin.svg',
   iconSize: MAIN_ICON_SIZE,
   iconAnchor: MAIN_ICON_ANCHOR,
 });
@@ -86,7 +86,7 @@ const createMarker = (index) => {
   const {lat, lng} = similarAds[index].location;
 
   const icon = L.icon({
-    iconUrl: '../img/pin.svg',
+    iconUrl: 'img/pin.svg',
     iconSize: ICON_SIZE,
     iconAnchor: ICON_ANCHOR,
   });
