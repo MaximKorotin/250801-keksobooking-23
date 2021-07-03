@@ -1,14 +1,19 @@
 import {switchPageState} from './form.js';
 import {generateAds} from './generator-ads.js';
 
+const PRICE = 1000;
+const MAP_SCALE = 14;
 const LAT_CENTER_TOKYO = 35.68940;
 const LNG_CENTER_TOKYO = 139.69200;
 const MAIN_ICON_SIZE = [52, 52];
 const MAIN_ICON_ANCHOR = [26, 52];
 const ICON_SIZE = [40, 40];
 const ICON_ANCHOR = [20, 40];
-const address = document.querySelector('#address');
-const reset = document.querySelector('.ad-form__reset');
+const filters = document.querySelector('.map__filters');
+const adForm = document.querySelector('.ad-form');
+const address = adForm.querySelector('#address');
+const reset = adForm.querySelector('.ad-form__reset');
+const price = adForm.querySelector('#price');
 
 // const similarAds = getData();
 
@@ -26,7 +31,7 @@ const map = L.map('map-canvas')
   .setView({
     lat: LAT_CENTER_TOKYO,
     lng: LNG_CENTER_TOKYO,
-  }, 14);
+  }, MAP_SCALE);
 
 // Добавляет слой с изображением карты от OpenStreetMap
 
@@ -75,14 +80,16 @@ const restoreData = () => {
   map.setView({
     lat: LAT_CENTER_TOKYO,
     lng: LNG_CENTER_TOKYO,
-  }, 14);
-  document.querySelector('#price').placeholder = 1000;
+  }, MAP_SCALE);
+  filters.reset();
+  adForm.reset();
+  price.min = PRICE;
+  price.placeholder = PRICE;
   setAddress(mainMarker);
 };
 
 reset.addEventListener('click', (evt) => {
   evt.preventDefault();
-  reset.closest('form').reset();
   restoreData();
 });
 

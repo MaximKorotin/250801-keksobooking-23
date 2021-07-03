@@ -1,5 +1,14 @@
+const MAX_ROOMS = '100';
+const MIN_CAPACITY = '0';
 const adForm = document.querySelector('.ad-form');
 const price = adForm.querySelector('#price');
+const priceObject = {
+  bungalow: 0,
+  flat: 1000,
+  hotel: 3000,
+  house: 5000,
+  palace: 10000,
+};
 
 // Функция валидации заголовка объявления
 
@@ -46,8 +55,6 @@ const setValidityMaxPrice = () => {
 // Функция валидации количества комнот и людей в объявление
 
 const setValidityCapacity = () => {
-  const MAX_ROOMS = '100';
-  const MIN_CAPACITY = '0';
   const rooms = adForm.querySelector('#room_number');
   const capacity = adForm.querySelector('#capacity');
 
@@ -82,14 +89,6 @@ const setValidityCapacity = () => {
 
 const setValidityMinPrice = () => {
   const types = adForm.querySelector('#type');
-
-  const priceObject = {
-    bungalow: 0,
-    flat: 1000,
-    hotel: 3000,
-    house: 5000,
-    palace: 10000,
-  };
 
   types.addEventListener('change', () => {
     const minPriceValue = priceObject[types.value];

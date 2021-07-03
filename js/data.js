@@ -40,9 +40,7 @@ const getData = () => {
       throw new Error(`${response.status} — ${response.statusText}`);
     })
     .then((response) => response.json())
-    .then((data) => {
-      similarOffers(data);
-    })
+    .then(similarOffers)
     .catch(() => {
       showAlert('Ошибка при загрузке данных с сервера. Попробуйте ещё раз.');
     });
@@ -63,13 +61,11 @@ const sendData = (onSuccess, onFail, body) => {
     .then((response) => {
       if (response.ok) {
         onSuccess();
-      } else {
-        onFail();
+        return;
       }
-    })
-    .catch(() => {
       onFail();
-    });
+    })
+    .catch(onFail);
 };
 
 export {sendData};

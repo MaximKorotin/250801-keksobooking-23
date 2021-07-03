@@ -1,5 +1,6 @@
 import {restoreData} from './map.js';
 import {sendData} from './data.js';
+import {isEscEvent} from './util.js';
 
 const adForm = document.querySelector('.ad-form');
 const success = document.querySelector('#success').content.querySelector('.success');
@@ -12,8 +13,6 @@ const resetData = () => {
   adForm.reset();
   restoreData();
 };
-
-const isEscEvent = (evt) => evt.key === 'Esc' || evt.key === 'Escape';
 
 // Функция закрывающая окно сообщения
 
@@ -30,6 +29,7 @@ const onPopupEscKeydown = (evt) => {
   if (isEscEvent(evt)) {
     evt.preventDefault();
     closePopup();
+    document.removeEventListener('keydown', onPopupEscKeydown);
   }
 };
 
