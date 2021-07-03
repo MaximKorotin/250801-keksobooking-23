@@ -1,5 +1,15 @@
+const MAX_ROOMS = '100';
+const MIN_CAPACITY = '0';
 const adForm = document.querySelector('.ad-form');
 const price = adForm.querySelector('#price');
+const types = adForm.querySelector('#type');
+const priceObject = {
+  bungalow: 0,
+  flat: 1000,
+  hotel: 3000,
+  house: 5000,
+  palace: 10000,
+};
 
 // Функция валидации заголовка объявления
 
@@ -43,11 +53,9 @@ const setValidityMaxPrice = () => {
   });
 };
 
-// Функция валидации количества комнот и людей в объявление
+// Функция валидации количества комнат и людей в объявление
 
 const setValidityCapacity = () => {
-  const MAX_ROOMS = '100';
-  const MIN_CAPACITY = '0';
   const rooms = adForm.querySelector('#room_number');
   const capacity = adForm.querySelector('#capacity');
 
@@ -56,7 +64,7 @@ const setValidityCapacity = () => {
     capacity.setCustomValidity(capacityReport);
   };
 
-  const setСonditionsReview = () => {
+  const setConditionsReview = () => {
     if (rooms.value === MAX_ROOMS && capacity.value !== MIN_CAPACITY) {
       setReport('Это помещение не для гостей', '');
     } else if (capacity.value === MIN_CAPACITY && rooms.value !== MAX_ROOMS) {
@@ -71,39 +79,29 @@ const setValidityCapacity = () => {
   };
 
   rooms.addEventListener('input', () => {
-    setСonditionsReview();
+    setConditionsReview();
   });
   capacity.addEventListener('input', () => {
-    setСonditionsReview();
+    setConditionsReview();
   });
 };
 
 // Функция валидации минимальной цены в объявление
 
 const setValidityMinPrice = () => {
-  const types = adForm.querySelector('#type');
-
-  const priceObject = {
-    bungalow: 0,
-    flat: 1000,
-    hotel: 3000,
-    house: 5000,
-    palace: 10000,
-  };
-
   types.addEventListener('change', () => {
     const minPriceValue = priceObject[types.value];
     price.min = minPriceValue;
     price.placeholder = minPriceValue;
+  });
 
-    price.addEventListener('input', () => {
-      if (price.value < minPriceValue) {
-        price.setCustomValidity(`Значение должно быть больше или равно ${minPriceValue}`);
-      } else {
-        price.setCustomValidity('');
-      }
-      price.reportValidity();
-    });
+  price.addEventListener('input', () => {
+    if (Number(price.value) < Number(price.min)) {
+      price.setCustomValidity(`Значение должно быть больше или равно ${price.min}`);
+    } else {
+      price.setCustomValidity('');
+    }
+    price.reportValidity();
   });
 };
 
