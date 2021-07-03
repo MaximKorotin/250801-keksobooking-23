@@ -1,4 +1,3 @@
-import {similarAds} from './create-ad.js';
 import {setVisibilityItemAd} from './util.js';
 
 const card = document.querySelector('#card').content.querySelector('.popup');
@@ -12,43 +11,43 @@ const matchingType = {
 
 // Функция, создающая карточки с объявлениями
 
-const generateAds = similarAds.map(({offer, author}) => {
+const generateAds = (ad) => {
   const cardElement = card.cloneNode(true);
 
   const title = cardElement.querySelector('.popup__title');
-  setVisibilityItemAd(title, offer.title, offer.title);
+  setVisibilityItemAd(title, ad.offer.title, ad.offer.title);
 
   const address = cardElement.querySelector('.popup__text--address');
-  setVisibilityItemAd(address, offer.address, offer.address);
+  setVisibilityItemAd(address, ad.offer.address, ad.offer.address);
 
   const price = cardElement.querySelector('.popup__text--price');
-  setVisibilityItemAd(price, offer.price, `${offer.price} ₽/ночь`);
+  setVisibilityItemAd(price, ad.offer.price, `${ad.offer.price} ₽/ночь`);
 
   const type = cardElement.querySelector('.popup__type');
-  setVisibilityItemAd(type, offer.type, matchingType[offer.type]);
+  setVisibilityItemAd(type, ad.offer.type, matchingType[ad.offer.type]);
 
   const capacity = cardElement.querySelector('.popup__text--capacity');
-  setVisibilityItemAd(capacity, offer.rooms && offer.guests, `${offer.rooms} комнаты для ${offer.guests} гостей`);
+  setVisibilityItemAd(capacity, ad.offer.rooms && ad.offer.guests, `${ad.offer.rooms} комнаты для ${ad.offer.guests} гостей`);
 
   const time = cardElement.querySelector('.popup__text--time');
-  setVisibilityItemAd(time, offer.checkin && offer.checkout, `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`);
+  setVisibilityItemAd(time, ad.offer.checkin && ad.offer.checkout, `Заезд после ${ad.offer.checkin}, выезд до ${ad.offer.checkout}`);
 
   const description = cardElement.querySelector('.popup__description');
-  setVisibilityItemAd(description, offer.description, offer.description);
+  setVisibilityItemAd(description, ad.offer.description, ad.offer.description);
 
-  if (author.avatar) {
-    cardElement.querySelector('.popup__avatar').src = author.avatar;
+  if (ad.author.avatar) {
+    cardElement.querySelector('.popup__avatar').src = ad.author.avatar;
     cardElement.querySelector('.popup__avatar').classList.remove('hidden');
   } else {
     cardElement.querySelector('.popup__avatar').classList.add('hidden');
   }
 
-  if (offer.features) {
+  if (ad.offer.features) {
     const featuresList = cardElement.querySelector('.popup__features');
     const featuresItem = cardElement.querySelector('.popup__feature');
     const featuresFragment = document.createDocumentFragment();
 
-    offer.features.forEach((features) => {
+    ad.offer.features.forEach((features) => {
       const featureElement = featuresItem.cloneNode(true);
       featureElement.classList.add(`popup__feature--${features}`);
       featuresFragment.appendChild(featureElement);
@@ -60,12 +59,12 @@ const generateAds = similarAds.map(({offer, author}) => {
     cardElement.querySelector('.popup__features').classList.add('hidden');
   }
 
-  if (offer.photos) {
+  if (ad.offer.photos) {
     const photoList = cardElement.querySelector('.popup__photos');
     const photoItem = cardElement.querySelector('.popup__photo');
     const photoFragment = document.createDocumentFragment();
 
-    offer.photos.forEach((photo) => {
+    ad.offer.photos.forEach((photo) => {
       const photoElement = photoItem.cloneNode(true);
       photoElement.src = photo;
       photoFragment.appendChild(photoElement);
@@ -78,6 +77,6 @@ const generateAds = similarAds.map(({offer, author}) => {
   }
 
   return cardElement;
-});
+};
 
 export {generateAds};

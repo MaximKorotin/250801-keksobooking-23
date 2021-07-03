@@ -1,5 +1,4 @@
 import {switchPageState} from './form.js';
-import {similarAds} from './create-ad.js';
 import {generateAds} from './generator-ads.js';
 
 const LAT_CENTER_TOKYO = 35.68940;
@@ -10,7 +9,13 @@ const ICON_SIZE = [40, 40];
 const ICON_ANCHOR = [20, 40];
 const address = document.querySelector('#address');
 const reset = document.querySelector('.ad-form__reset');
-address.value = `${LAT_CENTER_TOKYO.toFixed(5)}, ${LNG_CENTER_TOKYO.toFixed(5)}`;
+
+// const similarAds = getData();
+
+const setAddress = (marker) => {
+  const coordinates = marker.getLatLng();
+  address.value = `${coordinates.lat.toFixed(5)}, ${coordinates.lng.toFixed(5)}`;
+};
 
 // Добавляет основу карты от Leaflet
 
@@ -21,7 +26,7 @@ const map = L.map('map-canvas')
   .setView({
     lat: LAT_CENTER_TOKYO,
     lng: LNG_CENTER_TOKYO,
-  }, 12);
+  }, 14);
 
 // Добавляет слой с изображением карты от OpenStreetMap
 
@@ -52,18 +57,17 @@ const mainMarker = L.marker(
 
 mainMarker.addTo(map);
 
+setAddress(mainMarker);
+
 // Добавляет обработчик событий метки. При перемещение метки, возращаются новые координаты
 
-mainMarker.on('moveend', (evt) => {
-  const coordinates = evt.target.getLatLng();
-  address.value = `${coordinates.lat.toFixed(5)}, ${coordinates.lng.toFixed(5)}`;
+mainMarker.on('moveend', () => {
+  setAddress(mainMarker);
 });
 
 // При нажатие на кнопку "Очистить" основная метка, масштаб и центровка карты возращаются на исходную позицию
 
-reset.addEventListener('click', (evt) => {
-  evt.preventDefault();
-  reset.closest('form').reset();
+const restoreData = () => {
   mainMarker.setLatLng({
     lat: LAT_CENTER_TOKYO,
     lng: LNG_CENTER_TOKYO,
@@ -71,9 +75,15 @@ reset.addEventListener('click', (evt) => {
   map.setView({
     lat: LAT_CENTER_TOKYO,
     lng: LNG_CENTER_TOKYO,
-  }, 12);
+  }, 14);
   document.querySelector('#price').placeholder = 1000;
-  address.value = `${LAT_CENTER_TOKYO.toFixed(5)}, ${LNG_CENTER_TOKYO.toFixed(5)}`;
+  setAddress(mainMarker);
+};
+
+reset.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  reset.closest('form').reset();
+  restoreData();
 });
 
 // Создаёт и добавляет группу меток на карту
@@ -82,35 +92,36 @@ const markerGroup = L.layerGroup().addTo(map);
 
 // Создаёт метки с объявлениями
 
-const createMarker = (index) => {
-  const {lat, lng} = similarAds[index].location;
+const similarOffers = (similarAds) => {
+  similarAds.forEach((ad) => {
 
-  const icon = L.icon({
-    iconUrl: 'img/pin.svg',
-    iconSize: ICON_SIZE,
-    iconAnchor: ICON_ANCHOR,
-  });
+    const {lat, lng} = ad.location;
 
-  const marker = L.marker(
-    {
-      lat,
-      lng,
-    },
-    {
-      icon,
-    },
-  );
+    const icon = L.icon({
+      iconUrl: 'img/pin.svg',
+      iconSize: ICON_SIZE,
+      iconAnchor: ICON_ANCHOR,
+    });
 
-  marker
-    .addTo(markerGroup)
-    .bindPopup(
-      generateAds[index],
+    const marker = L.marker(
       {
-        keepInView: true,
+        lat,
+        lng,
+      },
+      {
+        icon,
       },
     );
+
+    marker
+      .addTo(markerGroup)
+      .bindPopup(
+        generateAds(ad),
+        {
+          keepInView: true,
+        },
+      );
+  });
 };
 
-similarAds.forEach((value, index) => {
-  createMarker(index);
-});
+export {restoreData, similarOffers};

@@ -1,4 +1,4 @@
-import './generator-ads.js';
+import './map.js';
 import './form.js';
 import './validity-form.js';
-import './map.js';
+import './form-popup.js';
