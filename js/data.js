@@ -1,5 +1,3 @@
-import {similarOffers} from './map.js';
-
 const SERVER_ADDRESS_GET = 'https://23.javascript.pages.academy/keksobooking/data';
 const SERVER_ADDRESS_POST = 'https://23.javascript.pages.academy/keksobooking';
 const ALERT_SHOW_TIME = 5000;
@@ -31,22 +29,21 @@ const showAlert = (message) => {
 
 //  Функция получения данных с сервера
 
-const getData = () => {
-  fetch(SERVER_ADDRESS_GET)
-    .then((response) => {
-      if (response.ok) {
-        return response;
-      }
-      throw new Error(`${response.status} — ${response.statusText}`);
-    })
-    .then((response) => response.json())
-    .then(similarOffers)
-    .catch(() => {
-      showAlert('Ошибка при загрузке данных с сервера. Попробуйте ещё раз.');
-    });
-};
+const getData = async () => {
+  let response;
 
-getData();
+  try {
+    response = await fetch(SERVER_ADDRESS_GET);
+    if (!response.ok) {
+      throw new Error(`${response.status} — ${response.statusText}`);
+    }
+  } catch (err) {
+    showAlert('Ошибка при загрузке данных с сервера. Попробуйте ещё раз.');
+  }
+
+  const dataAds = response.json();
+  return dataAds;
+};
 
 //  Функция отправки данных на сервер
 
@@ -68,4 +65,4 @@ const sendData = (onSuccess, onFail, body) => {
     .catch(onFail);
 };
 
-export {sendData};
+export {getData, sendData};

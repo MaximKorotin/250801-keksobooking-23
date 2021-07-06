@@ -1,7 +1,48 @@
 const ESC = 'Esc';
 const ESCAPE = 'Escape';
+const DEFAULT_FILTER = 'any';
+
+const priceCategories = {
+  middle: 'middle',
+  low: 'low',
+  high: 'high',
+};
+
+const pricesRange = {
+  low: 10000,
+  high: 50000,
+};
 
 const isEscEvent = (evt) => evt.key === ESC || evt.key === ESCAPE;
+
+// Функция, создающая условия сравнения жилья с выбранными фильтрами
+
+const isMatchedFilter = (findings, filterValue) =>
+  String(findings) === String(filterValue) || filterValue === DEFAULT_FILTER;
+
+// Функция, создающая условия сравнения стоимости жилья в объявлении с выбранной в фильтре
+
+const isMatchedPrice = (findings, filterValue) => {
+  if (filterValue === priceCategories.low) {
+    return findings < pricesRange.low;
+  } else if (filterValue === priceCategories.middle) {
+    return findings >= pricesRange.low && findings < pricesRange.high;
+  } else if (filterValue === priceCategories.high) {
+    return findings >= pricesRange.high;
+  }
+  return true;
+};
+
+// Функция, создающая условия сравнения преимуществ в объявлении с выбранными в фильтре
+
+const isMatchedFeatures = (findings, filterValue) => {
+  if (filterValue.length === 0) {
+    return true;
+  } else if (findings) {
+    return filterValue.every((feature) => findings.includes(feature));
+  }
+  return false;
+};
 
 // Функция, возвращающая случайное целое число из переданного диапазона включительно
 
@@ -30,4 +71,4 @@ const setVisibilityItemAd = (element, visible, content) => {
   element.classList.add('hidden');
 };
 
-export {getRandomInteger, setVisibilityItemAd, isEscEvent};
+export {getRandomInteger, isMatchedFilter, isMatchedPrice, isMatchedFeatures, setVisibilityItemAd, isEscEvent};
