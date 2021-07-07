@@ -2,6 +2,8 @@ const SERVER_ADDRESS_GET = 'https://23.javascript.pages.academy/keksobooking/dat
 const SERVER_ADDRESS_POST = 'https://23.javascript.pages.academy/keksobooking';
 const ALERT_SHOW_TIME = 5000;
 
+let ads = [];
+
 // Функция, показывающая сообщение об ошибке
 
 const showAlert = (message) => {
@@ -29,6 +31,8 @@ const showAlert = (message) => {
 
 //  Функция получения данных с сервера
 
+const getAdverts = () => ads;
+
 const getData = async () => {
   let response;
 
@@ -41,8 +45,8 @@ const getData = async () => {
     showAlert('Ошибка при загрузке данных с сервера. Попробуйте ещё раз.');
   }
 
-  const dataAds = response.json();
-  return dataAds;
+  ads = await response.json();
+  return ads;
 };
 
 //  Функция отправки данных на сервер
@@ -65,4 +69,4 @@ const sendData = (onSuccess, onFail, body) => {
     .catch(onFail);
 };
 
-export {getData, sendData};
+export {getData, sendData, getAdverts};

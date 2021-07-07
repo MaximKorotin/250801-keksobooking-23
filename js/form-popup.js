@@ -52,7 +52,7 @@ const showErrorMessage = () => {
   document.body.appendChild(errorMessage);
   document.addEventListener('keydown', onPopupEscKeydown);
   errorMessage.addEventListener('click', onPopupClick);
-  errorButton.addEventListener('click', closePopup);
+  errorButton.addEventListener('click', () => closePopup());
 };
 
 // Функция отправки созданных объявлений

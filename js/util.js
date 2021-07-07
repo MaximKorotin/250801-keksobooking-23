@@ -25,9 +25,11 @@ const isMatchedFilter = (findings, filterValue) =>
 const isMatchedPrice = (findings, filterValue) => {
   if (filterValue === priceCategories.low) {
     return findings < pricesRange.low;
-  } else if (filterValue === priceCategories.middle) {
+  }
+  if (filterValue === priceCategories.middle) {
     return findings >= pricesRange.low && findings < pricesRange.high;
-  } else if (filterValue === priceCategories.high) {
+  }
+  if (filterValue === priceCategories.high) {
     return findings >= pricesRange.high;
   }
   return true;
@@ -35,28 +37,13 @@ const isMatchedPrice = (findings, filterValue) => {
 
 // Функция, создающая условия сравнения преимуществ в объявлении с выбранными в фильтре
 
-const isMatchedFeatures = (findings, filterValue) => {
-  if (filterValue.length === 0) {
-    return true;
-  } else if (findings) {
-    return filterValue.every((feature) => findings.includes(feature));
-  }
-  return false;
-};
-
-// Функция, возвращающая случайное целое число из переданного диапазона включительно
-
-const getRandomInteger = function (min, max) {
-  if (min < 0) {
-    throw new RangeError('Минимальное значение не может быть меньше 0');
-  }
-  if (max <= min) {
-    throw new RangeError('Максимальное значение не может быть меньше или равное минимальному');
-  }
-
-  const randomNumber = Math.floor((Math.random() * (max - min + 1)) + min);
-
-  return randomNumber;
+const isMatchedFeatures = (findings) => {
+  const checkedFeatures = document.querySelectorAll('input:checked');
+  return Array.from(checkedFeatures).every((feature) => {
+    if (findings) {
+      return findings.includes(feature.value);
+    }
+  });
 };
 
 // Функция, скрывающая пустые пункты объявления
@@ -71,4 +58,14 @@ const setVisibilityItemAd = (element, visible, content) => {
   element.classList.add('hidden');
 };
 
-export {getRandomInteger, isMatchedFilter, isMatchedPrice, isMatchedFeatures, setVisibilityItemAd, isEscEvent};
+// Функция, устраняющая дребезг
+
+function debounce (callback, timeoutDelay) {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+}
+
+export {isMatchedFilter, isMatchedPrice, isMatchedFeatures, setVisibilityItemAd, isEscEvent, debounce};

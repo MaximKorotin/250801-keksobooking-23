@@ -1,7 +1,7 @@
 import {switchPageState} from './form.js';
 import {generateAds} from './generator-ads.js';
-import {getData} from './data.js';
-import {enabledFeatures} from './filter.js';
+import {getAdverts, getData} from './data.js';
+// import {getFeatures} from './filter.js';
 
 const PRICE = 1000;
 const MAP_SCALE = 13;
@@ -136,9 +136,8 @@ const restoreData = () => {
   filters.reset();
   adForm.reset();
   clearMarker();
-  enabledFeatures.length = 0;
   setMainMarker();
-  getData().then((ads) => similarOffers(ads.slice(0, SIMILAR_ADS_COUNT)));
+  similarOffers(getAdverts().slice(0, SIMILAR_ADS_COUNT));
   price.min = PRICE;
   price.placeholder = PRICE;
 };
@@ -147,5 +146,7 @@ reset.addEventListener('click', (evt) => {
   evt.preventDefault();
   restoreData();
 });
+
+getData().then((ads) => similarOffers(ads.slice(0, SIMILAR_ADS_COUNT)));
 
 export {restoreData, similarOffers, clearMarker};
