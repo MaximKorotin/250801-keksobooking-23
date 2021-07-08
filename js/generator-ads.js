@@ -12,6 +12,7 @@ const matchingType = {
 // Функция, создающая карточки с объявлениями
 
 const generateAds = (ad) => {
+
   const cardElement = card.cloneNode(true);
 
   const title = cardElement.querySelector('.popup__title');

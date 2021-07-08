@@ -1,21 +1,49 @@
 const ESC = 'Esc';
 const ESCAPE = 'Escape';
+const DEFAULT_FILTER = 'any';
+
+const priceCategories = {
+  middle: 'middle',
+  low: 'low',
+  high: 'high',
+};
+
+const pricesRange = {
+  low: 10000,
+  high: 50000,
+};
 
 const isEscEvent = (evt) => evt.key === ESC || evt.key === ESCAPE;
 
-// Функция, возвращающая случайное целое число из переданного диапазона включительно
+// Функция, создающая условия сравнения жилья с выбранными фильтрами
 
-const getRandomInteger = function (min, max) {
-  if (min < 0) {
-    throw new RangeError('Минимальное значение не может быть меньше 0');
+const isMatchedFilter = (findings, filterValue) =>
+  String(findings) === String(filterValue) || filterValue === DEFAULT_FILTER;
+
+// Функция, создающая условия сравнения стоимости жилья в объявлении с выбранной в фильтре
+
+const isMatchedPrice = (findings, filterValue) => {
+  if (filterValue === priceCategories.low) {
+    return findings < pricesRange.low;
   }
-  if (max <= min) {
-    throw new RangeError('Максимальное значение не может быть меньше или равное минимальному');
+  if (filterValue === priceCategories.middle) {
+    return findings >= pricesRange.low && findings < pricesRange.high;
   }
+  if (filterValue === priceCategories.high) {
+    return findings >= pricesRange.high;
+  }
+  return true;
+};
 
-  const randomNumber = Math.floor((Math.random() * (max - min + 1)) + min);
+// Функция, создающая условия сравнения преимуществ в объявлении с выбранными в фильтре
 
-  return randomNumber;
+const isMatchedFeatures = (findings) => {
+  const checkedFeatures = document.querySelectorAll('input:checked');
+  return Array.from(checkedFeatures).every((feature) => {
+    if (findings) {
+      return findings.includes(feature.value);
+    }
+  });
 };
 
 // Функция, скрывающая пустые пункты объявления
@@ -30,4 +58,14 @@ const setVisibilityItemAd = (element, visible, content) => {
   element.classList.add('hidden');
 };
 
-export {getRandomInteger, setVisibilityItemAd, isEscEvent};
+// Функция, устраняющая дребезг
+
+function debounce (callback, timeoutDelay) {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+}
+
+export {isMatchedFilter, isMatchedPrice, isMatchedFeatures, setVisibilityItemAd, isEscEvent, debounce};

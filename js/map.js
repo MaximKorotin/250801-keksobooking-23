@@ -1,10 +1,13 @@
 import {switchPageState} from './form.js';
 import {generateAds} from './generator-ads.js';
+import {getAdverts, getData} from './data.js';
+// import {getFeatures} from './filter.js';
 
 const PRICE = 1000;
-const MAP_SCALE = 14;
-const LAT_CENTER_TOKYO = 35.68940;
-const LNG_CENTER_TOKYO = 139.69200;
+const MAP_SCALE = 13;
+const SIMILAR_ADS_COUNT = 10;
+const LAT_CENTER_TOKYO = 35.67481;
+const LNG_CENTER_TOKYO = 139.74859;
 const MAIN_ICON_SIZE = [52, 52];
 const MAIN_ICON_ANCHOR = [26, 52];
 const ICON_SIZE = [40, 40];
@@ -70,29 +73,6 @@ mainMarker.on('moveend', () => {
   setAddress(mainMarker);
 });
 
-// При нажатие на кнопку "Очистить" основная метка, масштаб и центровка карты возращаются на исходную позицию
-
-const restoreData = () => {
-  mainMarker.setLatLng({
-    lat: LAT_CENTER_TOKYO,
-    lng: LNG_CENTER_TOKYO,
-  });
-  map.setView({
-    lat: LAT_CENTER_TOKYO,
-    lng: LNG_CENTER_TOKYO,
-  }, MAP_SCALE);
-  filters.reset();
-  adForm.reset();
-  price.min = PRICE;
-  price.placeholder = PRICE;
-  setAddress(mainMarker);
-};
-
-reset.addEventListener('click', (evt) => {
-  evt.preventDefault();
-  restoreData();
-});
-
 // Создаёт и добавляет группу меток на карту
 
 const markerGroup = L.layerGroup().addTo(map);
@@ -131,4 +111,42 @@ const similarOffers = (similarAds) => {
   });
 };
 
-export {restoreData, similarOffers};
+const setMainMarker = () => {
+  mainMarker.setLatLng({
+    lat: LAT_CENTER_TOKYO,
+    lng: LNG_CENTER_TOKYO,
+  });
+  map.setView({
+    lat: LAT_CENTER_TOKYO,
+    lng: LNG_CENTER_TOKYO,
+  }, MAP_SCALE);
+  setAddress(mainMarker);
+};
+
+// Функция, очистки группы меток
+
+const clearMarker = () => {
+  markerGroup.clearLayers();
+  setMainMarker();
+};
+
+// При нажатие на кнопку "Очистить" основная метка, масштаб и центровка карты возращаются на исходную позицию
+
+const restoreData = () => {
+  filters.reset();
+  adForm.reset();
+  clearMarker();
+  setMainMarker();
+  similarOffers(getAdverts().slice(0, SIMILAR_ADS_COUNT));
+  price.min = PRICE;
+  price.placeholder = PRICE;
+};
+
+reset.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  restoreData();
+});
+
+getData().then((ads) => similarOffers(ads.slice(0, SIMILAR_ADS_COUNT)));
+
+export {restoreData, similarOffers, clearMarker};
