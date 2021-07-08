@@ -1,15 +1,19 @@
 const MAX_ROOMS = '100';
 const MIN_CAPACITY = '0';
-const adForm = document.querySelector('.ad-form');
-const price = adForm.querySelector('#price');
-const types = adForm.querySelector('#type');
-const priceObject = {
+
+const PriceObject = {
   bungalow: 0,
   flat: 1000,
   hotel: 3000,
   house: 5000,
   palace: 10000,
 };
+
+const adForm = document.querySelector('.ad-form');
+const price = adForm.querySelector('#price');
+const types = adForm.querySelector('#type');
+const buttonSubmit = adForm.querySelector('.ad-form__submit');
+
 
 // Функция валидации заголовка объявления
 
@@ -90,7 +94,7 @@ const setValidityCapacity = () => {
 
 const setValidityMinPrice = () => {
   types.addEventListener('change', () => {
-    const minPriceValue = priceObject[types.value];
+    const minPriceValue = PriceObject[types.value];
     price.min = minPriceValue;
     price.placeholder = minPriceValue;
   });
@@ -118,6 +122,12 @@ const setValidityTime = () => {
     timeIn.value = timeOut.value;
   });
 };
+
+// Добавление красных рамок у невалидных пунктов формы
+
+buttonSubmit.addEventListener('click', () => {
+  adForm.classList.add('form-submitted');
+});
 
 setValidityTitle();
 setValidityMaxPrice();

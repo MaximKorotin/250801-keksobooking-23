@@ -1,7 +1,6 @@
-import {switchPageState} from './form.js';
+import {switchFormState, switchFilterState} from './form.js';
 import {generateAds} from './generator-ads.js';
 import {getAdverts, getData} from './data.js';
-// import {getFeatures} from './filter.js';
 
 const PRICE = 1000;
 const MAP_SCALE = 13;
@@ -12,6 +11,7 @@ const MAIN_ICON_SIZE = [52, 52];
 const MAIN_ICON_ANCHOR = [26, 52];
 const ICON_SIZE = [40, 40];
 const ICON_ANCHOR = [20, 40];
+
 const filters = document.querySelector('.map__filters');
 const adForm = document.querySelector('.ad-form');
 const address = adForm.querySelector('#address');
@@ -29,7 +29,7 @@ const setAddress = (marker) => {
 
 const map = L.map('map-canvas')
   .on('load', () => {
-    switchPageState(false);
+    switchFormState(false);
   })
   .setView({
     lat: LAT_CENTER_TOKYO,
@@ -147,6 +147,11 @@ reset.addEventListener('click', (evt) => {
   restoreData();
 });
 
-getData().then((ads) => similarOffers(ads.slice(0, SIMILAR_ADS_COUNT)));
+getData().then((ads) => {
+  similarOffers(ads.slice(0, SIMILAR_ADS_COUNT));
+  if (ads) {
+    switchFilterState(false);
+  }
+});
 
 export {restoreData, similarOffers, clearMarker};
