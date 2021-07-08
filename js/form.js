@@ -1,5 +1,6 @@
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 const PHOTO_ELEMENT_HTML = '<img class="ad-form__img" src="img/muffin-grey.svg" alt="Фотография жилья" width="40" height="44">';
+const DEFAULT_IMAGE = 'img/muffin-grey.svg';
 
 const adForm = document.querySelector('.ad-form');
 const formFieldset = adForm.querySelectorAll('fieldset');
@@ -54,6 +55,7 @@ const addImage = (chooser, preview) => {
 
       reader.addEventListener('load', () => {
         preview.src = reader.result;
+        preview.style.display = 'block';
       });
 
       reader.readAsDataURL(file);
@@ -61,9 +63,16 @@ const addImage = (chooser, preview) => {
   });
 };
 
+// Функция сброса изображений до начальных значений
+
+const resetPreview = () => {
+  previewAvatar.src = DEFAULT_IMAGE;
+  previewPhoto.style.display = 'none';
+};
+
 addImage(avatarFileChooser, previewAvatar);
 addImage(photoFileChooser, previewPhoto);
 switchFormState(true);
 switchFilterState(true);
 
-export {switchFormState, switchFilterState};
+export {switchFormState, switchFilterState, resetPreview};

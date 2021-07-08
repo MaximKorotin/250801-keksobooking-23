@@ -1,4 +1,4 @@
-import {switchFormState, switchFilterState} from './form.js';
+import {switchFormState, switchFilterState, resetPreview} from './form.js';
 import {generateAds} from './generator-ads.js';
 import {getAdverts, getData} from './data.js';
 
@@ -135,6 +135,7 @@ const clearMarker = () => {
 const restoreData = () => {
   filters.reset();
   adForm.reset();
+  resetPreview();
   clearMarker();
   setMainMarker();
   similarOffers(getAdverts().slice(0, SIMILAR_ADS_COUNT));
