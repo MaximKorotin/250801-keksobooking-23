@@ -388,7 +388,7 @@ fieldset {
 
 .ad-form__element input:focus,
 .ad-form__element select:focus,
-.ad-form__element textarea:focus {
+.ad-form__element textarea:focus{
   outline: none;
   -webkit-box-shadow: 0 0 2px 2px #ff6547;
           box-shadow: 0 0 2px 2px #ff6547;
@@ -640,6 +640,8 @@ fieldset {
   -webkit-box-shadow: 0 0 2px 2px #ff6547;
           box-shadow: 0 0 2px 2px #ff6547;
 }
+
+
 
 
 /* Футер
@@ -1027,4 +1029,14 @@ fieldset {
 
 .hidden {
   display: none;
+}
+
+.ad-form__img {
+  display: none;
+  margin: 12px auto;
+}
+
+.form-submitted input:invalid,
+.form-submitted select:invalid {
+  border: 3px solid #ff0000;
 }

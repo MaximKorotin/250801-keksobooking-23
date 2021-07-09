@@ -1,13 +1,14 @@
 import {setVisibilityItemAd} from './util.js';
 
-const card = document.querySelector('#card').content.querySelector('.popup');
-const matchingType = {
+const MatchingType = {
   palace: 'Дворец',
   flat: 'Квартира',
   house: 'Дом',
   bungalow: 'Бунгало',
   hotel: 'Отель',
 };
+
+const card = document.querySelector('#card').content.querySelector('.popup');
 
 // Функция, создающая карточки с объявлениями
 
@@ -25,7 +26,7 @@ const generateAds = (ad) => {
   setVisibilityItemAd(price, ad.offer.price, `${ad.offer.price} ₽/ночь`);
 
   const type = cardElement.querySelector('.popup__type');
-  setVisibilityItemAd(type, ad.offer.type, matchingType[ad.offer.type]);
+  setVisibilityItemAd(type, ad.offer.type, MatchingType[ad.offer.type]);
 
   const capacity = cardElement.querySelector('.popup__text--capacity');
   setVisibilityItemAd(capacity, ad.offer.rooms && ad.offer.guests, `${ad.offer.rooms} комнаты для ${ad.offer.guests} гостей`);
@@ -56,7 +57,7 @@ const generateAds = (ad) => {
 
     featuresList.innerHTML = '';
     featuresList.appendChild(featuresFragment);
-  } else {
+  } else if (!ad.offer.features || ad.offer.features === 0) {
     cardElement.querySelector('.popup__features').classList.add('hidden');
   }
 
@@ -73,7 +74,7 @@ const generateAds = (ad) => {
 
     photoList.innerHTML = '';
     photoList.appendChild(photoFragment);
-  } else {
+  } else if (!ad.offer.photos || ad.offer.photos === 0) {
     cardElement.querySelector('.popup__photos').classList.add('hidden');
   }
 

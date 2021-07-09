@@ -2,13 +2,13 @@ const ESC = 'Esc';
 const ESCAPE = 'Escape';
 const DEFAULT_FILTER = 'any';
 
-const priceCategories = {
+const PriceCategories = {
   middle: 'middle',
   low: 'low',
   high: 'high',
 };
 
-const pricesRange = {
+const PricesRange = {
   low: 10000,
   high: 50000,
 };
@@ -23,14 +23,14 @@ const isMatchedFilter = (findings, filterValue) =>
 // Функция, создающая условия сравнения стоимости жилья в объявлении с выбранной в фильтре
 
 const isMatchedPrice = (findings, filterValue) => {
-  if (filterValue === priceCategories.low) {
-    return findings < pricesRange.low;
+  if (filterValue === PriceCategories.low) {
+    return findings < PricesRange.low;
   }
-  if (filterValue === priceCategories.middle) {
-    return findings >= pricesRange.low && findings < pricesRange.high;
+  if (filterValue === PriceCategories.middle) {
+    return findings >= PricesRange.low && findings < PricesRange.high;
   }
-  if (filterValue === priceCategories.high) {
-    return findings >= pricesRange.high;
+  if (filterValue === PriceCategories.high) {
+    return findings >= PricesRange.high;
   }
   return true;
 };
