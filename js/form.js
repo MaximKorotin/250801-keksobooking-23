@@ -1,5 +1,5 @@
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
-const PHOTO_ELEMENT_HTML = '<img class="ad-form__img" src="img/muffin-grey.svg" alt="Фотография жилья" width="40" height="44">';
+const PHOTO_ELEMENT_HTML = '<img class="ad-form__img" src="" alt="Фотография жилья" width="40" height="44">';
 const DEFAULT_IMAGE = 'img/muffin-grey.svg';
 
 const adForm = document.querySelector('.ad-form');

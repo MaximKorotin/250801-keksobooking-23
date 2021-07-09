@@ -44,7 +44,9 @@ const generateAds = (ad) => {
     cardElement.querySelector('.popup__avatar').classList.add('hidden');
   }
 
-  if (ad.offer.features) {
+  if (!ad.offer.features || ad.offer.features === 0) {
+    cardElement.querySelector('.popup__features').classList.add('hidden');
+  } else if (ad.offer.features) {
     const featuresList = cardElement.querySelector('.popup__features');
     const featuresItem = cardElement.querySelector('.popup__feature');
     const featuresFragment = document.createDocumentFragment();
@@ -57,11 +59,11 @@ const generateAds = (ad) => {
 
     featuresList.innerHTML = '';
     featuresList.appendChild(featuresFragment);
-  } else if (!ad.offer.features || ad.offer.features === 0) {
-    cardElement.querySelector('.popup__features').classList.add('hidden');
   }
 
-  if (ad.offer.photos) {
+  if (!ad.offer.photos || ad.offer.photos === 0) {
+    cardElement.querySelector('.popup__photos').classList.add('hidden');
+  } else if (ad.offer.photos) {
     const photoList = cardElement.querySelector('.popup__photos');
     const photoItem = cardElement.querySelector('.popup__photo');
     const photoFragment = document.createDocumentFragment();
@@ -74,8 +76,6 @@ const generateAds = (ad) => {
 
     photoList.innerHTML = '';
     photoList.appendChild(photoFragment);
-  } else if (!ad.offer.photos || ad.offer.photos === 0) {
-    cardElement.querySelector('.popup__photos').classList.add('hidden');
   }
 
   return cardElement;
