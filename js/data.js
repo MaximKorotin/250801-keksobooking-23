@@ -8,7 +8,7 @@ let ads = [];
 
 const showAlert = (message) => {
   const alertContainer = document.createElement('div');
-  alertContainer.style.zIndex = 1000;
+  alertContainer.style.zIndex = '1000';
   alertContainer.style.position = 'fixed';
   alertContainer.style.top = '40%';
   alertContainer.style.left = '25%';

@@ -60,12 +60,12 @@ const setVisibilityItemAd = (element, visible, content) => {
 
 // Функция, устраняющая дребезг
 
-function debounce (callback, timeoutDelay) {
+const debounce = (callback, timeoutDelay) => {
   let timeoutId;
   return (...rest) => {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
   };
-}
+};
 
 export {isMatchedFilter, isMatchedPrice, isMatchedFeatures, setVisibilityItemAd, isEscEvent, debounce};
